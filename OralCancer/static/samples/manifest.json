@@ -1,0 +1,61 @@
+{
+  "dataset": {
+    "name": "Histopathological Imaging Database for Oral Cancer Analysis",
+    "authors": "Rahman T.Y., Mahanta L.B., Das A.K., Sarma J.D.",
+    "version": "2",
+    "doi": "10.17632/ftmp4cvtmb.2",
+    "source_url": "https://data.mendeley.com/datasets/ftmp4cvtmb/2",
+    "license": "CC BY 4.0",
+    "notes": "1224 H&E-stained oral biopsy images (100x and 400x) from 230 patients, labeled Normal or OSCC. Also mirrored on Kaggle as ashenafifasilkebede/dataset."
+  },
+  "images": [
+    {
+      "file": "normal/Normal_100x_12.jpg",
+      "label": "Normal"
+    },
+    {
+      "file": "normal/Normal_100x_2.jpg",
+      "label": "Normal"
+    },
+    {
+      "file": "normal/Normal_100x_21.jpg",
+      "label": "Normal"
+    },
+    {
+      "file": "normal/Normal_100x_22.jpg",
+      "label": "Normal"
+    },
+    {
+      "file": "normal/Normal_100x_25.jpg",
+      "label": "Normal"
+    },
+    {
+      "file": "normal/Normal_100x_35.jpg",
+      "label": "Normal"
+    },
+    {
+      "file": "normal/Normal_100x_38.jpg",
+      "label": "Normal"
+    },
+    {
+      "file": "normal/Normal_100x_41.jpg",
+      "label": "Normal"
+    },
+    {
+      "file": "oscc/OSCC_100x_101.jpg",
+      "label": "OSCC"
+    },
+    {
+      "file": "oscc/OSCC_100x_11.jpg",
+      "label": "OSCC"
+    },
+    {
+      "file": "oscc/OSCC_100x_110.jpg",
+      "label": "OSCC"
+    },
+    {
+      "file": "oscc/OSCC_100x_112.jpg",
+      "label": "OSCC"
+    }
+  ]
+}

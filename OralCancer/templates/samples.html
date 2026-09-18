@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% block body %}
+
+<section class="page-section bg-light text-dark mb-0">
+    <div class="container-fluid px-2 py-5 mx-auto">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-10 col-lg-11 col-12 text-left">
+
+                <div class="card shadow-sm border-0 p-4">
+                    <h2 class="text-center mb-2 form-title">Histopathology Reference Gallery</h2>
+                    <p class="text-center text-muted mb-4">
+                        Curated ground-truth biopsy samples from the Mendeley/Kaggle dataset for clinical reference and direct model testing.
+                    </p>
+
+                    {% if dataset_info %}
+                    <div class="dataset-info mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-9">
+                                <p class="mb-1"><strong>Database:</strong> {{ dataset_info.name }}</p>
+                                <p class="mb-1 text-muted small"><strong>Authors:</strong> {{ dataset_info.authors }}</p>
+                                <p class="mb-0 text-muted small"><strong>License:</strong> {{ dataset_info.license }} &bull; <strong>DOI:</strong> <a href="{{ dataset_info.source_url }}" target="_blank" rel="noopener">{{ dataset_info.doi }}</a></p>
+                            </div>
+                            <div class="col-md-3 text-md-end mt-2 mt-md-0">
+                                <a href="{{ url_for('home') }}" class="btn btn-sm btn-success">
+                                    <i class="fas fa-microscope me-1"></i> Open Detector
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if has_images %}
+
+                    <!-- NORMAL EPITHELIUM SAMPLES -->
+                    <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                        <h5 class="fw-bold mb-0 text-dark">
+                            Normal Oral Epithelium
+                            <span class="tag-simple tag-normal ms-2">{{ normal_images|length }} Samples</span>
+                        </h5>
+                    </div>
+                    <div class="row g-3 mb-5">
+                        {% for img in normal_images %}
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="gallery-card border rounded bg-white h-100 shadow-sm overflow-hidden d-flex flex-column">
+                                <div class="gallery-img-container position-relative cursor-pointer" onclick="openModal('{{ img.url }}', '{{ img.filename }}', 'Normal')">
+                                    <img src="{{ img.url }}"
+                                         alt="{{ img.filename }}"
+                                         class="gallery-img"
+                                         loading="lazy"
+                                         decoding="async">
+                                    <span class="badge-label badge-normal">Normal</span>
+                                    <span class="magnification-tag">{{ img.magnification }}</span>
+                                    <div class="gallery-overlay">
+                                        <i class="fas fa-search-plus text-white fa-2x"></i>
+                                    </div>
+                                </div>
+                                <div class="p-2 d-flex flex-column flex-grow-1 justify-content-between">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-truncate fw-bold small text-secondary" title="{{ img.filename }}">
+                                            {{ img.filename }}
+                                        </span>
+                                    </div>
+                                    <div class="d-flex gap-1">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm flex-fill py-1 small" onclick="openModal('{{ img.url }}', '{{ img.filename }}', 'Normal')">
+                                            <i class="fas fa-eye me-1"></i> View
+                                        </button>
+                                        <a href="{{ url_for('home') }}?sample={{ img.rel_path }}" class="btn btn-outline-success btn-sm flex-fill py-1 small fw-bold">
+                                            <i class="fas fa-play me-1"></i> Test
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- ORAL SQUAMOUS CELL CARCINOMA SAMPLES -->
+                    <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                        <h5 class="fw-bold mb-0 text-dark">
+                            Oral Squamous Cell Carcinoma (OSCC)
+                            <span class="tag-simple tag-oscc ms-2">{{ oscc_images|length }} Samples</span>
+                        </h5>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        {% for img in oscc_images %}
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="gallery-card border rounded bg-white h-100 shadow-sm overflow-hidden d-flex flex-column">
+                                <div class="gallery-img-container position-relative cursor-pointer" onclick="openModal('{{ img.url }}', '{{ img.filename }}', 'OSCC')">
+                                    <img src="{{ img.url }}"
+                                         alt="{{ img.filename }}"
+                                         class="gallery-img"
+                                         loading="lazy"
+                                         decoding="async">
+                                    <span class="badge-label badge-oscc">OSCC</span>
+                                    <span class="magnification-tag">{{ img.magnification }}</span>
+                                    <div class="gallery-overlay">
+                                        <i class="fas fa-search-plus text-white fa-2x"></i>
+                                    </div>
+                                </div>
+                                <div class="p-2 d-flex flex-column flex-grow-1 justify-content-between">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-truncate fw-bold small text-secondary" title="{{ img.filename }}">
+                                            {{ img.filename }}
+                                        </span>
+                                    </div>
+                                    <div class="d-flex gap-1">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm flex-fill py-1 small" onclick="openModal('{{ img.url }}', '{{ img.filename }}', 'OSCC')">
+                                            <i class="fas fa-eye me-1"></i> View
+                                        </button>
+                                        <a href="{{ url_for('home') }}?sample={{ img.rel_path }}" class="btn btn-outline-danger btn-sm flex-fill py-1 small fw-bold">
+                                            <i class="fas fa-play me-1"></i> Test
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% else %}
+
+                    <div class="empty-state text-center py-5">
+                        <i class="fas fa-images fa-4x text-muted mb-3 opacity-50"></i>
+                        <h5 class="fw-bold text-secondary mb-2">No Reference Slides Loaded</h5>
+                        <p class="text-muted small mb-0">
+                            Run <code>scripts/extract_partial_samples.py</code> to extract reference biopsy images from the local archive.
+                        </p>
+                    </div>
+
+                    {% endif %}
+
+                    <div class="text-center mt-4 pt-3 border-top">
+                        <a href="{{ url_for('home') }}" class="btn btn-secondary px-4">Back to Detection</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LIGHTBOX MODAL FOR FULL RESOLUTION SLIDE INSPECTION -->
+<div class="modal fade" id="slideModal" tabindex="-1" aria-labelledby="slideModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header py-2 bg-light">
+                <h6 class="modal-title fw-bold" id="slideModalTitle"></h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-2 bg-dark">
+                <img id="modalImg" src="" alt="Slide view" class="img-fluid rounded" style="max-height: 75vh; object-fit: contain;">
+            </div>
+            <div class="modal-footer py-2 d-flex justify-content-between bg-light">
+                <span id="modalLabelTag" class="tag-simple"></span>
+                <div>
+                    <button type="button" class="btn btn-sm btn-secondary me-2" data-bs-dismiss="modal">Close</button>
+                    <a id="modalTestBtn" href="#" class="btn btn-sm btn-success">
+                        <i class="fas fa-play me-1"></i> Analyze This Slide
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let slideModal = null;
+    document.addEventListener('DOMContentLoaded', function() {
+        slideModal = new bootstrap.Modal(document.getElementById('slideModal'));
+    });
+
+    function openModal(url, filename, label) {
+        document.getElementById('slideModalTitle').textContent = filename;
+        document.getElementById('modalImg').src = url;
+        const tag = document.getElementById('modalLabelTag');
+        tag.textContent = label;
+        tag.className = `tag-simple ${label === 'Normal' ? 'tag-normal' : 'tag-oscc'}`;
+        
+        // Find relative path from url
+        const match = url.match(/\/static\/samples\/(.+)$/);
+        const relPath = match ? match[1] : '';
+        document.getElementById('modalTestBtn').href = `{{ url_for('home') }}?sample=${relPath}`;
+        
+        if (slideModal) {
+            slideModal.show();
+        }
+    }
+</script>
+
+<style>
+.gallery-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.gallery-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12) !important;
+}
+.gallery-img-container {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #1a202c;
+    overflow: hidden;
+    position: relative;
+}
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.gallery-card:hover .gallery-img {
+    transform: scale(1.05);
+}
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.gallery-card:hover .gallery-overlay {
+    opacity: 1;
+}
+.magnification-tag {
+    position: absolute;
+    bottom: 0.4rem;
+    right: 0.4rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+</style>
+
+{% endblock %}

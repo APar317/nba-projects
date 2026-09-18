@@ -1,0 +1,13 @@
+# Fixed vs. the original requirements.txt, which pinned tensorflow-cpu==2.11
+# and a standalone keras==2.11, while the model was actually trained/saved
+# with tensorflow==2.16.1 + keras==3.2.1 (bundled). That mismatch is a
+# common source of "model failed to load" / "no module named keras.engine"
+# errors. Pin the whole stack to versions known to work together.
+
+Flask==3.0.3
+Werkzeug==3.0.3
+gunicorn==22.0.0
+tensorflow-cpu==2.16.1
+numpy==1.26.4
+Pillow==10.3.0
+h5py>=3.10.0

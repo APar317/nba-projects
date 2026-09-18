@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% block body %}
+
+<!-- Masthead-->
+<header class="masthead text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <h6>Akshat Mishra</h6>
+        <h6>Faculty of Engineering</h6>
+        <h6>Dayalbagh Educational Institute</h6>
+
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+        </div>
+        <p class="masthead-subheading fw-light mb-0">
+            This web application facilitates the identification and diagnosis of Oral
+            Squamous Cell Carcinoma (OSCC) through Convolutional Neural Network analysis of
+            histopathological biopsy images.
+        </p>
+    </div>
+</header>
+
+<div class="container-fluid px-1 py-5 mx-auto">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-8 col-lg-9 col-md-10 col-11">
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert alert-warning text-center alert-dismissible fade show mb-4" role="alert">
+                        {% for message in messages %}
+                            <div><i class="fas fa-exclamation-triangle me-2"></i>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Client-side Error Banner -->
+            <div id="clientErrorBanner" class="alert alert-danger text-center d-none mb-4" role="alert">
+                <i class="fas fa-ban me-2"></i><span id="clientErrorText"></span>
+            </div>
+
+            <div class="card shadow-sm border-0 p-4">
+                <h3 class="text-center mb-1 form-title">Oral Cancer Biopsy Analyzer</h3>
+                <p class="text-center text-muted small mb-4">
+                    Inspect and verify the biopsy slide in the preview window before initiating neural network classification.
+                </p>
+
+                <!-- PREVIEW CONTAINER (Always visible in the app) -->
+                <div id="previewCard" class="border rounded p-3 mb-4 bg-light text-center">
+                    <div id="emptyPreviewNotice" class="py-5">
+                        <i class="fas fa-microscope fa-4x text-muted mb-3 opacity-50"></i>
+                        <h5 class="fw-bold text-secondary mb-1">No Image Loaded For Inference</h5>
+                        <p class="text-muted small mb-0">
+                            Select a sample slide below or upload a biopsy image to preview it here.
+                        </p>
+                    </div>
+
+                    <div id="activePreviewBox" class="d-none">
+                        <div class="position-relative d-inline-block mb-3">
+                            <img id="previewImg" src="" alt="Biopsy slide preview" class="img-fluid rounded border shadow" style="max-height: 360px; max-width: 100%; object-fit: contain;">
+                            <span id="resolutionBadge" class="badge bg-dark position-absolute top-0 end-0 m-2 px-2 py-1 opacity-75"></span>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center gap-3 text-muted small flex-wrap">
+                            <span class="fw-bold text-dark"><i class="fas fa-image me-1"></i> <span id="fileNameLabel"></span></span>
+                            <span>&bull;</span>
+                            <span id="fileSizeLabel"></span>
+                            <span id="labelTag" class="tag-simple d-none"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MAIN ANALYSIS FORM -->
+                <form id="analysisForm" action="{{ url_for('get_output') }}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="sample_choice" id="sampleChoiceInput" value="">
+                    
+                    <!-- File Input Box -->
+                    <div class="mb-4">
+                        <label for="my_image" class="form-label fw-bold small text-uppercase text-muted">Or Upload Custom Biopsy Slide</label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" name="my_image" id="my_image" accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff">
+                            <button class="btn btn-outline-secondary" type="button" id="clearFileBtn">Clear</button>
+                        </div>
+                        <div class="form-text small text-muted">
+                            Strictly accepted: PNG, JPG, JPEG, BMP, TIFF (Max 16 MB). Non-images will be rejected.
+                        </div>
+                    </div>
+
+                    <!-- ACTION BUTTON -->
+                    <div class="text-center mt-3">
+                        <button type="submit" id="analyzeBtn" class="btn btn-success btn-lg px-5 py-2 fw-bold shadow-sm" disabled>
+                            Analyze Image
+                        </button>
+                    </div>
+                </form>
+
+                <!-- PRELOADED TEST SAMPLES (So users can immediately test without finding slides on their PC) -->
+                {% if sample_images %}
+                <hr class="my-4">
+                <div>
+                    <h6 class="fw-bold text-uppercase text-muted small mb-3">
+                        <i class="fas fa-flask me-1"></i> Quick Test: Choose a Real Dataset Biopsy Slide
+                    </h6>
+                    <div class="row g-2">
+                        {% for s in sample_images %}
+                        <div class="col-6 col-sm-4 col-md-3">
+                            <div class="sample-thumbnail-card border rounded p-1 text-center bg-white cursor-pointer"
+                                 data-url="{{ s.url }}"
+                                 data-filename="{{ s.filename }}"
+                                 data-label="{{ s.label }}"
+                                 data-relpath="{{ s.rel_path }}">
+                                <img src="{{ s.url }}" alt="{{ s.filename }}" class="img-fluid rounded mb-1" style="height: 70px; width: 100%; object-fit: cover;">
+                                <div class="d-flex justify-content-between align-items-center px-1">
+                                    <span class="tag-simple {{ 'tag-normal' if s.label == 'Normal' else 'tag-oscc' }}">{{ s.label }}</span>
+                                    <small class="text-truncate text-muted" style="max-width: 65px; font-size: 0.7rem;">{{ s.filename }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('my_image');
+    const clearFileBtn = document.getElementById('clearFileBtn');
+    const sampleChoiceInput = document.getElementById('sampleChoiceInput');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const previewCard = document.getElementById('previewCard');
+    const emptyPreviewNotice = document.getElementById('emptyPreviewNotice');
+    const activePreviewBox = document.getElementById('activePreviewBox');
+    const previewImg = document.getElementById('previewImg');
+    const resolutionBadge = document.getElementById('resolutionBadge');
+    const fileNameLabel = document.getElementById('fileNameLabel');
+    const fileSizeLabel = document.getElementById('fileSizeLabel');
+    const labelTag = document.getElementById('labelTag');
+    const clientErrorBanner = document.getElementById('clientErrorBanner');
+    const clientErrorText = document.getElementById('clientErrorText');
+    const analysisForm = document.getElementById('analysisForm');
+
+    const ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'bmp', 'tif', 'tiff'];
+
+    function showError(msg) {
+        clientErrorText.textContent = msg;
+        clientErrorBanner.classList.remove('d-none');
+    }
+
+    function clearError() {
+        clientErrorBanner.classList.add('d-none');
+        clientErrorText.textContent = '';
+    }
+
+    function resetPreview() {
+        previewImg.src = '';
+        activePreviewBox.classList.add('d-none');
+        emptyPreviewNotice.classList.remove('d-none');
+        analyzeBtn.disabled = true;
+        sampleChoiceInput.value = '';
+        fileInput.value = '';
+        labelTag.textContent = '';
+        labelTag.classList.add('d-none');
+        clearError();
+    }
+
+    clearFileBtn.addEventListener('click', resetPreview);
+
+    // 1. Handling User File Upload with Strict Validation
+    fileInput.addEventListener('change', function(e) {
+        clearError();
+        const file = e.target.files && e.target.files[0];
+        if (!file) {
+            resetPreview();
+            return;
+        }
+
+        // Strict extension validation
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (!ALLOWED_EXTENSIONS.includes(ext)) {
+            showError(`Invalid file: "${file.name}". Only histopathology image formats (.png, .jpg, .jpeg, .bmp, .tif) are permitted!`);
+            fileInput.value = '';
+            resetPreview();
+            return;
+        }
+
+        // Strict size validation (16 MB)
+        if (file.size > 16 * 1024 * 1024) {
+            showError(`File size (${(file.size / (1024*1024)).toFixed(1)} MB) exceeds the 16 MB maximum limit!`);
+            fileInput.value = '';
+            resetPreview();
+            return;
+        }
+
+        // Clear sample selection since user uploaded custom image
+        sampleChoiceInput.value = '';
+        document.querySelectorAll('.sample-thumbnail-card').forEach(c => c.classList.remove('border-primary', 'shadow'));
+
+        // Load and verify image with FileReader
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            const dataUrl = evt.target.result;
+            const imgChecker = new Image();
+            imgChecker.onload = function() {
+                previewImg.src = dataUrl;
+                resolutionBadge.textContent = `${this.naturalWidth} × ${this.naturalHeight} px`;
+                fileNameLabel.textContent = file.name;
+                fileSizeLabel.textContent = `${(file.size / (1024*1024)).toFixed(2)} MB`;
+                labelTag.classList.add('d-none');
+
+                emptyPreviewNotice.classList.add('d-none');
+                activePreviewBox.classList.remove('d-none');
+                analyzeBtn.disabled = false;
+            };
+            imgChecker.onerror = function() {
+                showError("The file you selected could not be decoded as an image. Corrupted or fake images are rejected.");
+                resetPreview();
+            };
+            imgChecker.src = dataUrl;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // 2. Handling Sample Biopsy Slide Selection
+    document.querySelectorAll('.sample-thumbnail-card').forEach(card => {
+        card.addEventListener('click', function() {
+            clearError();
+            fileInput.value = ''; // clear uploaded file
+
+            document.querySelectorAll('.sample-thumbnail-card').forEach(c => {
+                c.classList.remove('border-primary', 'shadow', 'bg-light');
+            });
+            this.classList.add('border-primary', 'shadow', 'bg-light');
+
+            const url = this.getAttribute('data-url');
+            const filename = this.getAttribute('data-filename');
+            const label = this.getAttribute('data-label');
+            const relpath = this.getAttribute('data-relpath');
+
+            sampleChoiceInput.value = relpath;
+
+            previewImg.src = url;
+            fileNameLabel.textContent = filename;
+            fileSizeLabel.textContent = "Reference Slide";
+            labelTag.textContent = label;
+            labelTag.className = `tag-simple ${label === 'Normal' ? 'tag-normal' : 'tag-oscc'}`;
+            labelTag.classList.remove('d-none');
+
+            const testImg = new Image();
+            testImg.onload = function() {
+                resolutionBadge.textContent = `${this.naturalWidth} × ${this.naturalHeight} px`;
+            };
+            testImg.src = url;
+
+            emptyPreviewNotice.classList.add('d-none');
+            activePreviewBox.classList.remove('d-none');
+            analyzeBtn.disabled = false;
+
+            // Scroll preview smoothly into view if on small screen
+            previewCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    });
+
+    // 3. Form Submit Loading State
+    analysisForm.addEventListener('submit', function(e) {
+        if (!fileInput.value && !sampleChoiceInput.value) {
+            e.preventDefault();
+            showError("Please choose a sample biopsy slide or select an image file first.");
+            return;
+        }
+        analyzeBtn.disabled = true;
+        analyzeBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Running OSCC-CNN Inference...';
+    });
+
+    // 4. Auto-select sample if specified in URL query (e.g., from Reference Gallery)
+    const urlParams = new URLSearchParams(window.location.search);
+    const preselectedSample = urlParams.get('sample');
+    if (preselectedSample) {
+        const targetCard = document.querySelector(`.sample-thumbnail-card[data-relpath="${preselectedSample}"]`);
+        if (targetCard) {
+            targetCard.click();
+        }
+    }
+</script>
+
+<style>
+.sample-thumbnail-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+}
+.sample-thumbnail-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    border-color: var(--color-primary) !important;
+}
+</style>
+
+{% endblock %}

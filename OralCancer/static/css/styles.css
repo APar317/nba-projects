@@ -1,0 +1,258 @@
+/* Styling for the OSCC-CNN webapp.
+   Solid colors only - no gradients. Clinical, low-key palette. */
+
+:root {
+    --color-bg: #f4f6f8;
+    --color-surface: #ffffff;
+    --color-text: #1c2530;
+    --color-muted: #5b6774;
+    --color-primary: #1f3a5f;
+    --color-primary-dark: #16283f;
+    --color-border: #dde2e8;
+    --color-danger: #a3271f;
+    --color-success: #1f6f4a;
+}
+
+body {
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    padding-top: 56px; /* clears the fixed navbar */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat", sans-serif;
+}
+
+a {
+    color: var(--color-primary);
+}
+
+code {
+    color: var(--color-primary-dark);
+    background-color: var(--color-bg);
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.25rem;
+}
+
+/* Navbar */
+#mainNav {
+    background-color: var(--color-primary) !important;
+}
+
+#mainNav .navbar-brand,
+#mainNav .nav-link {
+    color: #ffffff !important;
+}
+
+/* Masthead / header */
+.masthead {
+    padding: 3rem 1rem 2rem;
+    background-color: var(--color-primary);
+}
+
+.masthead h6 {
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.15rem;
+}
+
+.masthead-subheading {
+    max-width: 700px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #dbe3ec;
+}
+
+/* Divider */
+.divider-custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 1.5rem;
+    width: 100%;
+}
+
+.divider-custom-line {
+    width: 100%;
+    max-width: 10rem;
+    height: 0.2rem;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Upload / report card */
+.card {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: 0 0.15rem 0.5rem rgba(16, 24, 34, 0.08);
+}
+
+.form-title {
+    font-weight: 700;
+}
+
+.btn-success {
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.btn-success:hover {
+    background-color: #17573a;
+    border-color: #17573a;
+}
+
+.btn-secondary {
+    background-color: var(--color-muted);
+    border-color: var(--color-muted);
+}
+
+.text-danger {
+    color: var(--color-danger) !important;
+}
+
+.text-success {
+    color: var(--color-success) !important;
+}
+
+/* Reference gallery */
+.section-label {
+    font-weight: 700;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.dataset-info {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.35rem;
+    padding: 1rem 1.25rem;
+    font-size: 0.9rem;
+}
+
+.gallery-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gallery-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12) !important;
+}
+
+.gallery-img-container {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #1a202c;
+    overflow: hidden;
+    position: relative;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-card:hover .gallery-img {
+    transform: scale(1.05);
+}
+
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.gallery-card:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.magnification-tag {
+    position: absolute;
+    bottom: 0.4rem;
+    right: 0.4rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+/* Simple minimal tags (replaces bulky badges) */
+.tag-simple,
+.badge-label {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+}
+
+.tag-normal,
+.badge-normal {
+    color: #1b6342 !important;
+    background-color: #eaf5ef !important;
+    border: 1px solid #cce8d7 !important;
+}
+
+.tag-oscc,
+.badge-oscc {
+    color: #92221b !important;
+    background-color: #fbeeed !important;
+    border: 1px solid #f3cbca !important;
+}
+
+.badge-label {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+}
+
+.empty-state {
+    color: var(--color-muted);
+}
+
+/* Upload dropzone & preview */
+.upload-dropzone {
+    background-color: #fafbfc;
+    border: 2px dashed var(--color-border) !important;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.upload-dropzone:hover,
+.dropzone-active {
+    background-color: #f0f4f8;
+    border-color: var(--color-primary) !important;
+}
+
+.preview-wrapper img {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Footer */
+.copyright {
+    background-color: var(--color-primary-dark);
+    color: #d7dee6;
+}
+
+.copyright a {
+    color: #9fc4e8;
+}
