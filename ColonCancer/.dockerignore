@@ -1,0 +1,8 @@
+﻿.venv_new/
+.venv/
+myenv/
+major/
+__pycache__/
+*.log
+out*.txt
+*.tar

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Premium Colon Cancer Detection System" />
+    <title>ColoNet | Diagnostics</title>
+    
+    <!-- Bootstrap CDN CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ffcc;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #00ffcc !important;
+            text-transform: uppercase;
+        }
+        .glass-card {
+            background: #000000;
+            border: 2px solid #00ffcc;
+            border-radius: 16px;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+            padding: 40px;
+        }
+        .btn-premium {
+            background: #00ffcc;
+            border: none;
+            color: #000000;
+            padding: 14px 35px;
+            border-radius: 30px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        .btn-premium:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 8px #00ffcc;
+            color: #000000;
+            background: #ffffff;
+        }
+        .btn-outline-clear {
+            background: transparent;
+            border: 2px solid #ff0055;
+            color: #ff0055;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-clear:hover {
+            background: #ff0055;
+            color: #ffffff;
+            box-shadow: 0 0 8px #ff0055;
+        }
+        .footer {
+            margin-top: auto;
+            border-top: 2px solid #00ffcc;
+            padding: 20px 0;
+            background-color: #000000;
+        }
+        .footer a {
+            color: #00ffcc;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 5px #00ffcc;
+        }
+        .accent-text {
+            color: #00ffcc;
+            font-weight: 800;
+            text-shadow: 0 0 8px rgba(0,255,204,0.5);
+        }
+        /* Hide radio button but keep it accessible */
+        .image-picker input[type="radio"] {
+            display: none;
+        }
+        .image-picker label {
+            cursor: pointer;
+            border: 3px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            opacity: 0.85;
+        }
+        .image-picker label:hover {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+        .image-picker input[type="radio"]:checked + label {
+            border-color: #00ffcc;
+            box-shadow: 0 0 8px #00ffcc;
+            transform: scale(1.05);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid px-5">
+            <a class="navbar-brand" href="{{ url_for('home') }}">COLON CANCER DETECTION</a>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-5 mb-5 mt-4">
+        {% block body %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center mt-auto">
+        <div class="container text-white small">
+            <p class="mb-1 fw-bold text-white">Powered by Advanced Deep Learning & CNN Architecture</p>
+            <p class="mb-0 text-white">
+                <a href="https://github.com/Sam-1402/tsdbsbenchmark.git">GitHub</a> &bull; 
+                <a href="https://www.linkedin.com/in/samyak-jain-feb02/">LinkedIn</a> &bull; 
+                jainsamyakjain597@gmail.com
+            </p>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row align-items-center mt-5">
+    
+    <!-- Left Column: Text and Form -->
+    <div class="col-lg-5 text-start pe-lg-5 mb-5 mb-lg-0">
+        <h1 class="mb-4 accent-text display-4 fw-bold">Colon Cancer Disease Detection</h1>
+        <p class="text-white mb-4" style="line-height: 1.8; font-size: 1.1rem;">
+            Our advanced deep learning system employs a robust Convolutional Neural Network (CNN) to detect and classify colon adenocarcinomas from digital histopathology images. 
+        </p>
+        <p class="text-white mb-5">
+            Distinguishing between benign and malignant colon tumors is critical for effective treatment. Select a random sample from the right or upload your own image to receive an automated AI-driven diagnosis.
+        </p>
+        
+        <form id="upload-form" action="/submit" method="post" enctype="multipart/form-data" onsubmit="document.getElementById('analyze-btn').innerHTML = '<i class=\'fas fa-spinner fa-spin\'></i> ANALYZING...';">
+            
+            <div class="glass-card mb-4">
+                <p class="text-white mb-2 fw-bold">Upload custom image:</p>
+                <input type="file" class="form-control bg-dark text-white border-light" name="my_image" accept="image/*" id="file-upload">
+                {% if valid %}
+                <div class="text-danger mt-2 small fw-bold">
+                    <i class="fas fa-exclamation-triangle"></i> Image is invalid. Please select or upload a valid biopsy image.
+                </div>
+                {% endif %}
+            </div>
+            
+            <div id="selected-sample-text" class="text-info fw-bold mt-2 mb-3" style="font-size: 1.2rem; display: none;"></div>
+
+            <div class="d-flex flex-column gap-3 mt-4">
+                <button type="submit" class="btn-premium py-3" id="analyze-btn">Analyze Selected Image</button>
+                <button type="button" class="btn-outline-clear py-2" onclick="document.getElementById('upload-form').reset(); document.getElementById('selected-sample-text').style.display='none';">Clear Selection</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Right Column: Randomized Image Grid -->
+    <div class="col-lg-7">
+        <div class="glass-card">
+            <h4 class="text-white mb-4 text-center border-bottom border-light pb-3">Histopathology Samples</h4>
+            <div class="row text-center image-picker" id="imageGrid">
+                <!-- 16 Mixed Images -->
+                {% for img_num, img_name in [(1, 'colonca49.jpeg'), (2, 'colonn226.jpeg'), (3, 'colonn15.jpeg'), (4, 'colonca801.jpeg'), (5, 'colonn40.jpeg'), (6, 'colonca1.jpeg'), (7, 'colonn65.jpeg'), (8, 'colonca48.jpeg'), (9, 'colonn566.jpeg'), (10, 'colonca15.jpeg'), (11, 'colonn25.jpeg'), (12, 'colonca437.jpeg'), (13, 'colonn107.jpeg'), (14, 'colonca800.jpeg'), (15, 'colonn48.jpeg'), (16, 'colonca31.jpeg')] %}
+                <div class="col-md-3 col-4 mb-3">
+                    <input type="radio" name="prefixed_image" id="img_mix{{img_num}}" value="static/images/{{img_name}}" form="upload-form" onchange="document.getElementById('selected-sample-text').innerText = 'Sample {{img_num}} Selected!'; document.getElementById('selected-sample-text').style.display='block';">
+                    <label for="img_mix{{img_num}}" class="d-block">
+                        <img src="{{ url_for('static', filename='images/' + img_name) }}" class="img-fluid rounded" alt="Sample {{img_num}}">
+                        <small class="text-light d-block mt-2 fw-bold">Sample {{img_num}}</small>
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

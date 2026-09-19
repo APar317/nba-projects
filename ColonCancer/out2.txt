@@ -1,0 +1,35 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1789637363.503933    1520 port.cc:148] TF_ENABLE_ONEDNN_OPTS is not set to either '0', 'false', '1', or 'true'. Using the default setting: true
+I0000 00:00:1789637363.506416    1520 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1789637387.122972    1520 port.cc:148] TF_ENABLE_ONEDNN_OPTS is not set to either '0', 'false', '1', or 'true'. Using the default setting: true
+I0000 00:00:1789637387.123637    1520 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1789637394.076914    4484 port.cc:148] TF_ENABLE_ONEDNN_OPTS is not set to either '0', 'false', '1', or 'true'. Using the default setting: true
+I0000 00:00:1789637394.077384    4484 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1789637402.382896    4484 port.cc:148] TF_ENABLE_ONEDNN_OPTS is not set to either '0', 'false', '1', or 'true'. Using the default setting: true
+I0000 00:00:1789637402.383082    4484 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+ * Debugger is active!
+ * Debugger PIN: 215-521-471
+ * Detected change in 'C:\\Users\\dell\\Downloads\\webapp_full\\1804696_Samyak Jain_Colon_Cancer_Detector_WebApp\\Similarity.py', reloading
+ * Restarting with stat
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1789637829.915985    7248 port.cc:148] TF_ENABLE_ONEDNN_OPTS is not set to either '0', 'false', '1', or 'true'. Using the default setting: true
+I0000 00:00:1789637829.916525    7248 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1789637844.301433    7248 port.cc:148] TF_ENABLE_ONEDNN_OPTS is not set to either '0', 'false', '1', or 'true'. Using the default setting: true
+I0000 00:00:1789637844.301653    7248 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+ * Debugger is active!
+ * Debugger PIN: 215-521-471
+ * Detected change in 'C:\\Users\\dell\\Downloads\\webapp_full\\1804696_Samyak Jain_Colon_Cancer_Detector_WebApp\\main.py', reloading
+ * Restarting with stat
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1789637872.763825     852 port.cc:148] TF_ENABLE_ONEDNN_OPTS is not set to either '0', 'false', '1', or 'true'. Using the default setting: true
+I0000 00:00:1789637872.764291     852 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
